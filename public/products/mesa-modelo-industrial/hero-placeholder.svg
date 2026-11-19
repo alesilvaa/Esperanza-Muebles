@@ -1,0 +1,10 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1920" height="1080" fill="#756354"/>
+  <rect y="720" width="1920" height="360" fill="#493D35"/>
+  <rect x="1050" y="235" width="600" height="370" fill="#B7A48C" opacity=".55"/>
+  <path d="M820 620H1760L1640 760H900L820 620Z" fill="#A76F42" stroke="#684327" stroke-width="13"/>
+  <path d="M950 750L900 1050M1600 750L1660 1050M965 980H1595" stroke="#171717" stroke-width="43"/>
+  <path d="M1140 750L1115 930M1450 750L1480 930" stroke="#242424" stroke-width="25"/>
+  <rect x="1260" y="755" width="120" height="250" fill="#80512F"/>
+  <text x="1360" y="420" text-anchor="middle" fill="white" fill-opacity=".75" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="5">FOTO PRINCIPAL PENDIENTE</text>
+</svg>

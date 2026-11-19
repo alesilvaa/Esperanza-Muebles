@@ -1,0 +1,8 @@
+<svg width="1400" height="1200" viewBox="0 0 1400 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1400" height="1200" fill="#A27450"/>
+  <path d="M-100 150L1500 950M-100 520L1150 1150M240 -100L1500 530" stroke="#7C5236" stroke-width="120"/>
+  <path d="M0 85C390 260 800 255 1400 580M0 700C420 520 990 690 1400 1000" stroke="#C89A70" stroke-width="22" opacity=".75"/>
+  <rect x="500" y="400" width="400" height="400" stroke="white" stroke-opacity=".7" stroke-width="3"/>
+  <text x="700" y="595" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="32" font-weight="700" letter-spacing="5">DETALLE DE MADERA</text>
+  <text x="700" y="645" text-anchor="middle" fill="white" fill-opacity=".75" font-family="Arial, sans-serif" font-size="24">FOTO PENDIENTE</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg width="900" height="1125" viewBox="0 0 900 1125" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1125" fill="#BAA58C"/>
+  <rect y="780" width="900" height="345" fill="#8B7662"/>
+  <path d="M170 525H730L690 620H210L170 525Z" fill="#7E4F2E"/>
+  <path d="M240 610L205 890M660 610L700 890" stroke="#171717" stroke-width="25"/>
+  <path d="M150 650V900M750 650V900M140 690H265M635 690H760" stroke="#5C3A27" stroke-width="22"/>
+  <text x="450" y="1000" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="4">FOTO PENDIENTE</text>
+</svg>

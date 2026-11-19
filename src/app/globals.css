@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #e8201c;
+  --color-ink: #111111;
+  --color-cream: #faf7f2;
+  --color-white: #ffffff;
+  --font-sans: var(--font-inter), Arial, sans-serif;
+  --font-heading: var(--font-oswald), Impact, sans-serif;
+  --breakpoint-xs: 30rem;
+}
+
+@layer base {
+  * {
+    border-color: color-mix(in srgb, var(--color-ink) 15%, transparent);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    text-rendering: optimizeLegibility;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .site-container {
+    width: min(100% - 2rem, 80rem);
+    margin-inline: auto;
+  }
+
+  .section-space {
+    padding-block: clamp(4rem, 9vw, 7.5rem);
+  }
+
+  .eyebrow {
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--color-brand);
+  }
+
+  .section-title {
+    max-width: 15ch;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 7vw, 5.2rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+    text-transform: uppercase;
+  }
+
+  .button-primary,
+  .button-secondary,
+  .button-light {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.78rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+  }
+
+  .button-primary {
+    border: 1px solid var(--color-brand);
+    background: var(--color-brand);
+    color: white;
+  }
+
+  .button-primary:hover {
+    border-color: #bd1512;
+    background: #bd1512;
+  }
+
+  .button-secondary {
+    border: 1px solid currentColor;
+    background: transparent;
+    color: var(--color-ink);
+  }
+
+  .button-secondary:hover {
+    background: var(--color-ink);
+    color: white;
+  }
+
+  .button-light {
+    border: 1px solid white;
+    background: white;
+    color: var(--color-ink);
+  }
+
+  .button-light:hover {
+    background: var(--color-cream);
+  }
+
+  .nav-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 180ms ease;
+  }
+
+  .nav-link:hover {
+    color: var(--color-brand);
+  }
+
+  .footer-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 0.75rem;
+    z-index: 100;
+    transform: translateY(-150%);
+    background: white;
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 48rem) {
+  .site-container {
+    width: min(100% - 4rem, 80rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
