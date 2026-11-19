@@ -29,9 +29,19 @@ export function Header() {
   const { itemCount } = useCart();
   const whatsappUrl = siteConfig.whatsapp ? `https://wa.me/${siteConfig.whatsapp}` : "";
 
+  function handleCategoryNavigation(event: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    if (pathname !== "/productos") return;
+
+    event.preventDefault();
+    const url = new URL(href, window.location.origin);
+    const category = url.searchParams.get("categoria") ?? "";
+    window.history.replaceState({}, "", `${url.pathname}${url.search}`);
+    window.dispatchEvent(new CustomEvent("catalog-category-change", { detail: { category } }));
+  }
+
   return (
     <header className="sticky top-0 z-50 bg-white/95 shadow-[0_1px_0_rgba(0,0,0,.12)] backdrop-blur-md">
-      <div className="bg-ink text-white">
+      <div className="hidden bg-ink text-white sm:block">
         <div className="site-container flex min-h-9 items-center justify-between gap-4 text-[0.72rem] font-bold uppercase tracking-[0.11em] sm:text-xs">
           <p>Muebles hechos a pedido en Paraguay</p>
           {siteConfig.instagram ? (
@@ -42,7 +52,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className="site-container flex h-[4.5rem] items-center justify-between gap-3">
+      <div className="site-container flex h-16 items-center justify-between gap-3 sm:h-[4.5rem]">
         <Logo />
 
         <nav className="hidden items-center gap-7 lg:flex" aria-label="Navegación principal">
@@ -101,12 +111,13 @@ export function Header() {
         </nav>
       ) : null}
 
-      <nav className="border-t border-black/10 bg-cream" aria-label="Categorías de productos">
+      <nav className="hidden border-t border-black/10 bg-cream sm:block" aria-label="Categorías de productos">
         <div className="site-container flex snap-x gap-1 overflow-x-auto py-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categoryItems.map((item) => (
             <Link
               key={item.label}
               href={item.href}
+              onClick={(event) => handleCategoryNavigation(event, item.href)}
               className="flex min-h-10 shrink-0 snap-start items-center px-3 text-sm font-bold transition-colors hover:text-brand sm:px-4"
             >
               {item.label}

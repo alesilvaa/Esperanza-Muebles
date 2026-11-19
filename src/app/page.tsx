@@ -19,7 +19,7 @@ const benefits = [
 export default function Home() {
   return (
     <main id="contenido">
-      <section className="relative min-h-[calc(100svh-9.25rem)] overflow-hidden bg-ink text-white">
+      <section className="relative min-h-[calc(100svh-4rem)] overflow-hidden bg-ink text-white sm:min-h-[calc(100svh-9.25rem)]">
         <Image
           src="/products/mesa-modelo-industrial/hero-placeholder.svg"
           alt="Espacio reservado para una fotografía destacada de un mueble de Esperanza Muebles"
@@ -30,7 +30,7 @@ export default function Home() {
           className="object-cover object-center opacity-75"
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,17,17,.86)_0%,rgba(17,17,17,.55)_48%,rgba(17,17,17,.15)_100%)]" />
-        <div className="site-container relative flex min-h-[calc(100svh-9.25rem)] items-end py-14 sm:items-center sm:py-20">
+        <div className="site-container relative flex min-h-[calc(100svh-4rem)] items-end py-14 sm:min-h-[calc(100svh-9.25rem)] sm:items-center sm:py-20">
           <div className="max-w-3xl">
             <p className="eyebrow text-white">Madera · hierro · oficio</p>
             <h1 className="mt-4 font-heading text-[clamp(3.5rem,13vw,7.75rem)] font-bold uppercase leading-[0.88] tracking-[-0.035em]">

@@ -35,17 +35,17 @@ export function CartPage() {
   return (
     <main id="contenido" className="bg-cream pb-28 lg:pb-0">
       <section className="bg-ink text-white">
-        <div className="site-container py-10 sm:py-14">
+        <div className="site-container py-6 sm:py-10">
           <p className="eyebrow text-white">Cotización sin compromiso</p>
-          <h1 className="mt-2 font-heading text-[clamp(3.2rem,8vw,6rem)] uppercase leading-none">Mi pedido</h1>
-          <p className="mt-4 text-white/70">{itemCount} {itemCount === 1 ? "mueble" : "muebles"} en tu consulta.</p>
+          <h1 className="mt-1 font-heading text-[clamp(2.9rem,7vw,5rem)] uppercase leading-none">Mi pedido</h1>
+          <p className="mt-2 text-white/70">{itemCount} {itemCount === 1 ? "mueble" : "muebles"} en tu consulta.</p>
         </div>
       </section>
 
       <div className="site-container grid gap-8 py-8 lg:grid-cols-[1fr_23rem] lg:py-12">
         <div className="grid gap-4">
           {items.map((item, index) => (
-            <article key={item.slug} className="grid gap-5 bg-white p-4 sm:grid-cols-[10rem_1fr] sm:p-5">
+            <article key={item.slug} className="grid grid-cols-[6.5rem_1fr] gap-3 bg-white p-3 sm:grid-cols-[10rem_1fr] sm:gap-5 sm:p-5">
               <Link href={`/productos/${item.slug}`} className="relative aspect-square overflow-hidden bg-cream sm:aspect-[4/5]">
                 <Image
                   src={item.image}
@@ -60,7 +60,7 @@ export function CartPage() {
               <div className="min-w-0">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <Link href={`/productos/${item.slug}`} className="font-heading text-2xl uppercase leading-tight">{item.name}</Link>
+                    <Link href={`/productos/${item.slug}`} className="font-heading text-xl uppercase leading-tight sm:text-2xl">{item.name}</Link>
                     <p className="mt-1 text-sm text-ink/60">{item.measurement}</p>
                   </div>
                   <button type="button" onClick={() => removeItem(item.slug)} className="grid min-h-11 min-w-11 place-items-center text-ink/55 hover:text-brand" aria-label={`Quitar ${item.name}`}>
@@ -68,7 +68,7 @@ export function CartPage() {
                   </button>
                 </div>
 
-                <div className="mt-5 flex items-center justify-between gap-4">
+                <div className="mt-3 flex items-center justify-between gap-4 sm:mt-5">
                   <div className="inline-flex border border-black/20" aria-label={`Cantidad de ${item.name}`}>
                     <button type="button" onClick={() => setQuantity(item.slug, item.quantity - 1)} disabled={item.quantity === 1} className="grid min-h-11 min-w-11 place-items-center disabled:opacity-30" aria-label="Restar uno">
                       <MinusIcon className="size-4" />
@@ -80,7 +80,7 @@ export function CartPage() {
                   </div>
                 </div>
 
-                <label className="mt-5 block text-sm font-bold">
+                <label className="col-span-2 mt-4 block text-sm font-bold sm:col-span-1 sm:mt-5">
                   Nota para este mueble
                   <textarea
                     value={item.note}

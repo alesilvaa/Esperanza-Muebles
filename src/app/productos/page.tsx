@@ -18,15 +18,17 @@ export default async function ProductsPage({
   return (
     <main id="contenido" className="min-h-[70vh] bg-cream">
       <section className="bg-ink text-white">
-        <div className="site-container py-12 sm:py-16 lg:py-20">
-          <p className="eyebrow text-white">Catálogo Esperanza</p>
-          <h1 className="mt-3 max-w-4xl font-heading text-[clamp(3.4rem,9vw,7rem)] uppercase leading-[0.9]">Encontrá el mueble para tu espacio</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-white/70">
-            Elegí un modelo, agregalo a tu pedido y envianos la consulta. Adaptamos medidas y terminaciones contigo.
+        <div className="site-container flex flex-col gap-3 py-6 sm:flex-row sm:items-end sm:justify-between sm:py-9">
+          <div>
+            <p className="eyebrow text-white">Catálogo</p>
+            <h1 className="mt-1 font-heading text-[clamp(2.9rem,7vw,5.5rem)] uppercase leading-none">Productos</h1>
+          </div>
+          <p className="max-w-xl text-base leading-7 text-white/70 sm:text-right">
+            Elegí un modelo, agregalo a tu pedido y coordiná medidas y terminaciones con nosotros.
           </p>
         </div>
       </section>
-      <section className="site-container py-8 sm:py-12 lg:py-16">
+      <section className="site-container py-4 sm:py-8 lg:py-10">
         <ProductCatalog products={products} activeCategory={validCategory} />
       </section>
     </main>
