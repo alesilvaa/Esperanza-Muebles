@@ -21,29 +21,41 @@ const benefits = [
 export default function Home() {
   return (
     <main id="contenido">
-      <section className="relative min-h-[34rem] overflow-hidden bg-ink text-white sm:min-h-[calc(100svh-9.25rem)]">
-        <Image
-          src="/products/mesa-modelo-industrial/hero-placeholder.svg"
-          alt="Espacio reservado para una fotografía destacada de un mueble de Esperanza Muebles"
-          fill
-          unoptimized
-          preload
-          sizes="100vw"
-          className="object-cover object-center opacity-75"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(17,17,17,.86)_0%,rgba(17,17,17,.55)_48%,rgba(17,17,17,.15)_100%)]" />
-        <div className="site-container relative flex min-h-[34rem] items-center py-9 sm:min-h-[calc(100svh-9.25rem)] sm:py-20">
-          <div className="max-w-3xl">
-            <p className="eyebrow text-white">Madera · hierro · oficio</p>
-            <h1 data-reveal className="mt-3 font-heading text-[clamp(3.15rem,12vw,7.75rem)] font-bold uppercase leading-[0.88] tracking-[-0.035em] sm:mt-4">
+      <section className="relative overflow-hidden bg-ink text-white">
+        {/* Mobile: foto arriba con fundido hacia el texto. Desde sm: foto de fondo completa. */}
+        <div className="relative aspect-[4/3] overflow-hidden sm:absolute sm:inset-0 sm:aspect-auto">
+          <Image
+            src="/products/mesa-modelo-industrial/hero-placeholder.svg"
+            alt="Espacio reservado para una fotografía destacada de un mueble de Esperanza Muebles"
+            fill
+            unoptimized
+            preload
+            sizes="100vw"
+            className="hero-image object-cover object-[75%_center] sm:object-center sm:opacity-75"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,17,17,0)_45%,rgba(17,17,17,.7)_78%,#111_94%)] sm:hidden" />
+          <div className="absolute inset-0 hidden bg-[linear-gradient(90deg,rgba(17,17,17,.86)_0%,rgba(17,17,17,.55)_48%,rgba(17,17,17,.15)_100%)] sm:block" />
+        </div>
+        <div className="site-container relative -mt-14 pb-9 sm:mt-0 sm:flex sm:min-h-[calc(100svh-9.25rem)] sm:items-center sm:py-20">
+          <div className="w-full max-w-3xl">
+            <p className="eyebrow inline-flex items-center gap-2 text-white">
+              <span className="h-px w-6 bg-brand sm:hidden" aria-hidden="true" />
+              Madera · hierro · oficio
+            </p>
+            <h1 data-reveal className="mt-3 font-heading text-[clamp(2.9rem,13.5vw,7.75rem)] font-bold uppercase leading-[0.9] tracking-[-0.03em] sm:mt-4 sm:leading-[0.88] sm:tracking-[-0.035em]">
               Muebles de madera <span className="text-brand">hechos para durar</span>
             </h1>
-            <p data-reveal className="mt-4 max-w-xl text-base leading-7 text-white/80 sm:mt-6 sm:text-xl sm:leading-8">
+            <p data-reveal className="mt-4 max-w-xl text-[0.95rem] leading-6 text-white/80 sm:mt-6 sm:text-xl sm:leading-8">
               Elegí uno de nuestros modelos o contanos qué necesitás. Fabricamos muebles de madera y hierro a pedido.
             </p>
-            <div data-reveal className="mt-6 grid grid-cols-2 gap-2 sm:mt-8 sm:flex sm:gap-3">
-              <Link href="/productos" className="button-primary">Ver muebles</Link>
-              <Link href="/a-medida" className="button-light">Pedí tu cotización</Link>
+            <div data-reveal className="mt-6 grid gap-2.5 xs:grid-cols-2 sm:mt-8 sm:flex sm:gap-3">
+              <Link href="/productos" className="button-primary min-h-13 sm:min-h-12">Ver muebles</Link>
+              <Link
+                href="/a-medida"
+                className="button-light min-h-13 max-sm:border-white/60 max-sm:bg-transparent max-sm:text-white max-sm:hover:bg-white/10 sm:min-h-12"
+              >
+                Pedí tu cotización
+              </Link>
             </div>
           </div>
         </div>
