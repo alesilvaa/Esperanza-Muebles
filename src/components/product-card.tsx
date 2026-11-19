@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { BagIcon, CheckIcon } from "@/components/icons";
 import { useCart } from "@/context/cart-context";
@@ -9,6 +10,7 @@ import { formatProductPrice, type Product } from "@/data/products";
 
 export function ProductCard({ product, compact = false }: { product: Product; compact?: boolean }) {
   const { addItem } = useCart();
+  const router = useRouter();
   const [added, setAdded] = useState(false);
   const price = formatProductPrice(product);
 
@@ -16,6 +18,11 @@ export function ProductCard({ product, compact = false }: { product: Product; co
     addItem(product);
     setAdded(true);
     window.setTimeout(() => setAdded(false), 1800);
+  }
+
+  function handleBuyNow() {
+    addItem(product);
+    router.push("/pedido");
   }
 
   return (
@@ -41,11 +48,24 @@ export function ProductCard({ product, compact = false }: { product: Product; co
           </div>
         </div>
       </Link>
-      <button type="button" onClick={handleAdd} className={compact ? "mt-3 inline-flex min-h-11 w-full items-center justify-center gap-2 border border-ink px-2 text-sm font-bold uppercase" : "button-secondary mt-4 w-full"} aria-live="polite">
-        {added ? <CheckIcon className="size-5" /> : <BagIcon className="size-5" />}
-        <span className={compact ? "sm:hidden" : "hidden"}>{added ? "Listo" : "Agregar"}</span>
-        <span className={compact ? "hidden sm:inline" : "inline"}>{added ? "Agregado al pedido" : "Agregar a mi pedido"}</span>
-      </button>
+      <div className={`mt-auto grid gap-2 ${compact ? "pt-3" : "grid-cols-2 pt-4"}`}>
+        <button
+          type="button"
+          onClick={handleAdd}
+          className={compact ? "inline-flex min-h-11 w-full items-center justify-center gap-2 border border-ink px-2 text-[0.72rem] font-bold uppercase sm:text-xs" : "button-secondary w-full px-3"}
+          aria-live="polite"
+        >
+          {added ? <CheckIcon className="size-4 shrink-0" /> : <BagIcon className="size-4 shrink-0" />}
+          <span>{added ? "Agregado" : "Agregar al carrito"}</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleBuyNow}
+          className={compact ? "inline-flex min-h-11 w-full items-center justify-center bg-brand px-2 text-[0.72rem] font-bold uppercase text-white transition hover:bg-[#bd1512] sm:text-xs" : "button-primary w-full px-3"}
+        >
+          Comprar ahora
+        </button>
+      </div>
     </article>
   );
 }

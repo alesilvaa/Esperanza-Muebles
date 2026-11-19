@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { developerCredit, siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
 import { InstagramIcon } from "@/components/icons";
 import { Logo } from "@/components/logo";
+import { ManageopySignature } from "@/components/manageopy-signature";
 
 export function Footer() {
   const hasContactDetails = Boolean(siteConfig.phone || siteConfig.address || siteConfig.city || siteConfig.hours);
@@ -41,9 +42,12 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/15">
-        <div className="site-container flex flex-col gap-2 py-5 text-sm text-white/55 sm:flex-row sm:items-center sm:justify-between">
+        <div className="site-container grid gap-5 py-5 text-sm text-white/55 sm:grid-cols-2 sm:items-center lg:grid-cols-[1fr_auto_1fr]">
           <p>© {new Date().getFullYear()} {siteConfig.name}.</p>
-          {developerCredit ? <p>{developerCredit}</p> : null}
+          <p className="hidden text-center text-xs text-white/35 lg:block">Muebles hechos a pedido en Paraguay</p>
+          <div className="sm:justify-self-end">
+            <ManageopySignature />
+          </div>
         </div>
       </div>
     </footer>

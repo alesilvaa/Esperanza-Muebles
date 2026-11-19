@@ -49,7 +49,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="grid gap-3 sm:grid-cols-2">
           {product.images.map((image, index) => (
             <div key={image.src} className={`relative overflow-hidden bg-cream ${index === 0 ? "aspect-[4/5] sm:col-span-2" : "aspect-[4/3]"}`}>
-              <Image src={image.src} alt={image.alt} fill unoptimized sizes="(min-width: 1024px) 52vw, 100vw" className="object-cover" preload={index === 0} />
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                unoptimized
+                sizes="(min-width: 1024px) 52vw, 100vw"
+                className="object-cover"
+                {...(index === 0 ? { preload: true } : { loading: "eager" as const })}
+              />
             </div>
           ))}
         </div>
@@ -69,14 +77,14 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             ))}
           </dl>
 
-          <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-7">
             <AddToOrder product={product} />
             {whatsappUrl ? (
-              <a href={whatsappUrl} target="_blank" rel="noreferrer" className="button-secondary w-full sm:w-auto">
+              <a href={whatsappUrl} target="_blank" rel="noreferrer" className="button-secondary mt-3 w-full">
                 <WhatsAppIcon className="size-5" /> Consultar por WhatsApp
               </a>
             ) : (
-              <button type="button" className="button-secondary w-full opacity-50 sm:w-auto" disabled>WhatsApp no configurado</button>
+              <button type="button" className="button-secondary mt-3 w-full opacity-50" disabled>WhatsApp no configurado</button>
             )}
           </div>
 

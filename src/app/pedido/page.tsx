@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CartPage } from "@/components/cart-page";
 
 export const metadata: Metadata = {
-  title: "Mi pedido",
+  title: "Carrito",
   description: "Revisá los muebles elegidos y enviá tu solicitud de cotización por WhatsApp.",
 };
 

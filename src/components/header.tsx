@@ -71,8 +71,9 @@ export function Header() {
           <Link href="/productos" className="hidden min-h-11 min-w-11 place-items-center text-ink sm:grid" aria-label="Buscar productos">
             <SearchIcon className="size-6" />
           </Link>
-          <Link href="/pedido" className="relative grid min-h-11 min-w-11 place-items-center px-2 text-ink" aria-label={`Mi pedido, ${itemCount} productos`}>
-            <BagIcon className="size-6" />
+          <Link href="/pedido" className="relative inline-flex min-h-11 min-w-11 items-center justify-center gap-2 px-2 text-ink" aria-label={`Carrito, ${itemCount} productos`}>
+            <BagIcon className="size-6 shrink-0" />
+            <span className="hidden text-xs font-bold uppercase tracking-[0.08em] sm:inline">Carrito</span>
             <span className="absolute right-0 top-0 grid size-5 place-items-center rounded-full bg-brand text-[0.65rem] font-bold text-white">{itemCount}</span>
           </Link>
           {whatsappUrl ? (

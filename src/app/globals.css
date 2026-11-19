@@ -154,6 +154,83 @@
   }
 }
 
+/* ---------- Animaciones de entrada al hacer scroll ---------- */
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translate3d(0, 1.75rem, 0);
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+}
+
+.reveal-ready .reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Variante desde la izquierda para títulos grandes */
+.reveal-ready .section-title.reveal {
+  transform: translate3d(-1.25rem, 0, 0);
+}
+
+.reveal-ready .section-title.reveal.is-revealed {
+  transform: none;
+}
+
+/* ---------- Botón flotante de WhatsApp ---------- */
+@keyframes whatsapp-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes whatsapp-ping {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes whatsapp-wiggle {
+  0%, 88%, 100% { transform: rotate(0); }
+  91% { transform: rotate(-12deg); }
+  94% { transform: rotate(10deg); }
+  97% { transform: rotate(-6deg); }
+}
+
+.whatsapp-float {
+  animation:
+    whatsapp-in 600ms cubic-bezier(0.34, 1.56, 0.64, 1) 900ms both,
+    whatsapp-wiggle 6s ease-in-out 3s infinite;
+}
+
+.whatsapp-ping {
+  animation: whatsapp-ping 2.4s cubic-bezier(0, 0, 0.2, 1) 1.6s infinite;
+}
+
+.whatsapp-bubble {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(0.5rem) scale(0.85);
+  transition: opacity 220ms ease, transform 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.whatsapp-bubble.is-open {
+  pointer-events: auto;
+  opacity: 1;
+  transform: none;
+}
+
 @media (min-width: 48rem) {
   .site-container {
     width: min(100% - 4rem, 80rem);
@@ -170,5 +247,7 @@
   *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }

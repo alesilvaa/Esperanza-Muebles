@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { RevealScript, ScrollReveal } from "@/components/scroll-reveal";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { CartProvider } from "@/context/cart-context";
 import { siteConfig } from "@/config/site";
@@ -21,8 +22,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es-PY" data-scroll-behavior="smooth" className={`${inter.variable} ${oswald.variable}`}>
+    <html lang="es-PY" data-scroll-behavior="smooth" className={`${inter.variable} ${oswald.variable}`} suppressHydrationWarning>
+      <head>
+        <RevealScript />
+      </head>
       <body>
+        <ScrollReveal />
         <CartProvider>
           <a href="#contenido" className="skip-link">Saltar al contenido</a>
           <Header />

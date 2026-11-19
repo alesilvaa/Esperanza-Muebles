@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { MinusIcon, PlusIcon, TrashIcon, WhatsAppIcon } from "@/components/icons";
+import { BagIcon, CheckIcon, MinusIcon, PlusIcon, TrashIcon, WhatsAppIcon } from "@/components/icons";
 import { siteConfig } from "@/config/site";
 import { useCart } from "@/context/cart-context";
 import { buildOrderMessage, getWhatsAppUrl } from "@/lib/whatsapp";
@@ -11,134 +11,239 @@ import { buildOrderMessage, getWhatsAppUrl } from "@/lib/whatsapp";
 export function CartPage() {
   const { items, itemCount, hydrated, removeItem, setQuantity, setNote, clearCart } = useCart();
   const [generalNotes, setGeneralNotes] = useState("");
+  const [confirmingClear, setConfirmingClear] = useState(false);
   const message = buildOrderMessage(items, generalNotes);
   const whatsappUrl = getWhatsAppUrl(siteConfig.whatsapp, message);
 
   if (!hydrated) {
-    return <div className="site-container min-h-[55vh] py-20 text-center text-ink/60">Cargando tu pedido...</div>;
+    return (
+      <main id="contenido" className="min-h-[70vh] bg-cream">
+        <div className="site-container py-8 sm:py-12">
+          <div className="h-24 animate-pulse rounded-3xl bg-white" />
+          <div className="mt-5 h-64 animate-pulse rounded-3xl bg-white" />
+        </div>
+      </main>
+    );
   }
 
   if (items.length === 0) {
     return (
-      <main id="contenido" className="bg-cream">
-        <section className="site-container flex min-h-[62vh] flex-col items-center justify-center py-20 text-center">
-          <span className="grid size-16 place-items-center rounded-full bg-white text-2xl">0</span>
-          <p className="eyebrow mt-6">Mi pedido</p>
-          <h1 className="mt-3 font-heading text-[clamp(3rem,9vw,5.5rem)] uppercase leading-none">Tu pedido está vacío</h1>
-          <p className="mt-5 max-w-lg text-lg leading-8 text-ink/65">Elegí muebles del catálogo y prepará una consulta con cantidades, medidas y notas.</p>
-          <Link href="/productos" className="button-primary mt-8">Explorar productos</Link>
+      <main id="contenido" className="relative flex min-h-[70vh] items-center overflow-hidden bg-cream py-16">
+        <div className="absolute -left-24 top-16 size-64 rounded-full bg-brand/10 blur-3xl" />
+        <section className="site-container relative flex flex-col items-center text-center">
+          <span className="grid size-20 place-items-center rounded-full bg-ink text-white shadow-xl shadow-black/10">
+            <BagIcon className="size-8" />
+          </span>
+          <p className="eyebrow mt-6">Tu selección</p>
+          <h1 className="mt-2 font-heading text-[clamp(2.8rem,10vw,5rem)] uppercase leading-none">Tu carrito está vacío</h1>
+          <p className="mt-4 max-w-md text-base leading-7 text-ink/65">
+            Elegí los muebles que te interesan y prepará una solicitud de cotización en pocos pasos.
+          </p>
+          <Link href="/productos" className="button-primary mt-7">Explorar productos</Link>
         </section>
       </main>
     );
   }
 
   return (
-    <main id="contenido" className="bg-cream pb-28 lg:pb-0">
-      <section className="bg-ink text-white">
-        <div className="site-container py-6 sm:py-10">
-          <p className="eyebrow text-white">Cotización sin compromiso</p>
-          <h1 className="mt-1 font-heading text-[clamp(2.9rem,7vw,5rem)] uppercase leading-none">Mi pedido</h1>
-          <p className="mt-2 text-white/70">{itemCount} {itemCount === 1 ? "mueble" : "muebles"} en tu consulta.</p>
-        </div>
-      </section>
+    <main id="contenido" className="relative min-h-screen bg-cream pb-[7.5rem] lg:pb-12">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(ellipse_at_top,rgba(232,32,28,0.09),transparent_65%)]" />
 
-      <div className="site-container grid gap-8 py-8 lg:grid-cols-[1fr_23rem] lg:py-12">
-        <div className="grid gap-4">
-          {items.map((item, index) => (
-            <article key={item.slug} className="grid grid-cols-[6.5rem_1fr] gap-3 bg-white p-3 sm:grid-cols-[10rem_1fr] sm:gap-5 sm:p-5">
-              <Link href={`/productos/${item.slug}`} className="relative aspect-square overflow-hidden bg-cream sm:aspect-[4/5]">
-                <Image
-                  src={item.image}
-                  alt={item.imageAlt}
-                  fill
-                  unoptimized
-                  loading={index === 0 ? "eager" : "lazy"}
-                  sizes="(min-width: 640px) 160px, 100vw"
-                  className="object-cover"
-                />
-              </Link>
-              <div className="min-w-0">
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <Link href={`/productos/${item.slug}`} className="font-heading text-xl uppercase leading-tight sm:text-2xl">{item.name}</Link>
-                    <p className="mt-1 text-sm text-ink/60">{item.measurement}</p>
+      <div className="site-container relative py-5 sm:py-8">
+        <header className="mb-5 flex flex-col gap-4 sm:mb-7 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="eyebrow">Cotización por WhatsApp</p>
+            <h1 className="mt-1 font-heading text-[clamp(2.5rem,8vw,4.5rem)] uppercase leading-none">Revisá tu carrito</h1>
+            <p className="mt-2 text-sm text-ink/60">
+              {items.length} {items.length === 1 ? "producto" : "productos"} · {itemCount} {itemCount === 1 ? "unidad" : "unidades"}
+            </p>
+          </div>
+          <div className="flex items-center justify-between gap-3 sm:justify-start">
+            <Link href="/productos" className="inline-flex min-h-11 items-center border border-black/15 bg-white px-4 text-sm font-bold transition-colors hover:border-ink">
+              Seguir comprando
+            </Link>
+            {confirmingClear ? (
+              <div className="flex items-center gap-2">
+                <button type="button" onClick={() => setConfirmingClear(false)} className="min-h-11 px-2 text-sm font-bold text-ink/55">Cancelar</button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    clearCart();
+                    setConfirmingClear(false);
+                  }}
+                  className="min-h-11 bg-ink px-3 text-sm font-bold text-white"
+                >
+                  Confirmar
+                </button>
+              </div>
+            ) : (
+              <button type="button" onClick={() => setConfirmingClear(true)} className="min-h-11 px-2 text-sm font-bold text-ink/50 transition-colors hover:text-brand">
+                Vaciar
+              </button>
+            )}
+          </div>
+        </header>
+
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_23.5rem] lg:items-start lg:gap-6">
+          <section className="order-2 overflow-hidden rounded-3xl border border-black/10 bg-white shadow-[0_20px_55px_-36px_rgba(17,17,17,.45)] lg:order-1" aria-labelledby="productos-elegidos">
+            <div className="flex items-center justify-between border-b border-black/10 px-4 py-4 sm:px-5">
+              <div className="flex items-center gap-2">
+                <BagIcon className="size-4 text-brand" />
+                <h2 id="productos-elegidos" className="text-xs font-extrabold uppercase tracking-[0.14em]">Productos elegidos</h2>
+              </div>
+              <Link href="/productos" className="text-xs font-bold text-brand">Agregar más</Link>
+            </div>
+
+            <div className="divide-y divide-black/10">
+              {items.map((item, index) => (
+                <article key={item.slug} className="p-4 sm:p-5">
+                  <div className="flex gap-3.5 sm:gap-4">
+                    <Link href={`/productos/${item.slug}`} className="relative size-[4.75rem] shrink-0 overflow-hidden rounded-2xl bg-cream sm:size-24">
+                      <Image
+                        src={item.image}
+                        alt={item.imageAlt}
+                        fill
+                        unoptimized
+                        loading={index === 0 ? "eager" : "lazy"}
+                        sizes="96px"
+                        className="object-cover"
+                      />
+                    </Link>
+
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="text-[0.65rem] font-extrabold uppercase tracking-[0.15em] text-brand">Hecho a pedido</p>
+                          <Link href={`/productos/${item.slug}`} className="mt-0.5 block font-heading text-lg uppercase leading-tight sm:text-xl">
+                            {item.name}
+                          </Link>
+                          <p className="mt-1 text-xs leading-5 text-ink/55">{item.measurement}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => removeItem(item.slug)}
+                          className="grid size-10 shrink-0 place-items-center rounded-full text-ink/45 transition-colors hover:bg-red-50 hover:text-brand"
+                          aria-label={`Quitar ${item.name}`}
+                        >
+                          <TrashIcon className="size-4" />
+                        </button>
+                      </div>
+
+                      <div className="mt-3 flex items-center justify-between gap-3">
+                        <div className="inline-flex items-center rounded-full border border-black/15 bg-cream p-0.5" aria-label={`Cantidad de ${item.name}`}>
+                          <button
+                            type="button"
+                            onClick={() => setQuantity(item.slug, item.quantity - 1)}
+                            disabled={item.quantity === 1}
+                            className="grid size-8 place-items-center rounded-full transition-colors hover:bg-white disabled:opacity-30"
+                            aria-label="Restar uno"
+                          >
+                            <MinusIcon className="size-3.5" />
+                          </button>
+                          <span className="w-8 text-center text-sm font-extrabold" aria-live="polite">{item.quantity}</span>
+                          <button
+                            type="button"
+                            onClick={() => setQuantity(item.slug, item.quantity + 1)}
+                            className="grid size-8 place-items-center rounded-full transition-colors hover:bg-white"
+                            aria-label="Sumar uno"
+                          >
+                            <PlusIcon className="size-3.5" />
+                          </button>
+                        </div>
+                        <p className="text-right text-xs font-bold text-ink/55">Precio a cotizar</p>
+                      </div>
+                    </div>
                   </div>
-                  <button type="button" onClick={() => removeItem(item.slug)} className="grid min-h-11 min-w-11 place-items-center text-ink/55 hover:text-brand" aria-label={`Quitar ${item.name}`}>
-                    <TrashIcon className="size-5" />
-                  </button>
-                </div>
 
-                <div className="mt-3 flex items-center justify-between gap-4 sm:mt-5">
-                  <div className="inline-flex border border-black/20" aria-label={`Cantidad de ${item.name}`}>
-                    <button type="button" onClick={() => setQuantity(item.slug, item.quantity - 1)} disabled={item.quantity === 1} className="grid min-h-11 min-w-11 place-items-center disabled:opacity-30" aria-label="Restar uno">
-                      <MinusIcon className="size-4" />
-                    </button>
-                    <span className="grid min-h-11 min-w-11 place-items-center border-x border-black/20 font-bold" aria-live="polite">{item.quantity}</span>
-                    <button type="button" onClick={() => setQuantity(item.slug, item.quantity + 1)} className="grid min-h-11 min-w-11 place-items-center" aria-label="Sumar uno">
-                      <PlusIcon className="size-4" />
-                    </button>
-                  </div>
-                </div>
+                  <details className="group mt-3 sm:ml-28">
+                    <summary className="flex min-h-10 cursor-pointer list-none items-center justify-between border-t border-black/10 pt-3 text-xs font-bold text-ink/55 [&::-webkit-details-marker]:hidden">
+                      Agregar una nota para este mueble <span className="text-brand group-open:hidden">+</span><span className="hidden text-brand group-open:inline">−</span>
+                    </summary>
+                    <textarea
+                      value={item.note}
+                      onChange={(event) => setNote(item.slug, event.target.value)}
+                      placeholder="Ej.: otra medida, color o terminación"
+                      rows={2}
+                      className="mt-2 w-full resize-y rounded-xl border border-black/15 bg-cream p-3 text-base font-normal outline-none transition focus:border-brand"
+                    />
+                  </details>
+                </article>
+              ))}
+            </div>
+          </section>
 
-                <label className="col-span-2 mt-4 block text-sm font-bold sm:col-span-1 sm:mt-5">
-                  Nota para este mueble
+          <aside className="order-1 lg:sticky lg:top-44 lg:order-2">
+            <div className="overflow-hidden rounded-3xl bg-ink text-white shadow-[0_24px_60px_-30px_rgba(17,17,17,.75)]">
+              <div className="border-b border-white/10 px-5 py-5 sm:px-6">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-[0.7rem] font-extrabold uppercase tracking-[0.18em] text-brand">Resumen del pedido</p>
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-bold text-white/75">{itemCount} u.</span>
+                </div>
+                <h2 className="mt-3 font-heading text-3xl uppercase leading-none">Cotización personalizada</h2>
+                <p className="mt-2 text-sm leading-6 text-white/55">Revisamos medidas, materiales y terminación antes de confirmar el precio.</p>
+              </div>
+
+              <div className="px-5 py-5 sm:px-6">
+                <ul className="grid gap-3 text-sm text-white/75">
+                  <li className="flex items-start gap-3"><CheckIcon className="mt-0.5 size-4 shrink-0 text-brand" /><span>Sin pago online ni compromiso.</span></li>
+                  <li className="flex items-start gap-3"><CheckIcon className="mt-0.5 size-4 shrink-0 text-brand" /><span>Coordinación directa por WhatsApp.</span></li>
+                  <li className="flex items-start gap-3"><CheckIcon className="mt-0.5 size-4 shrink-0 text-brand" /><span>Entrega y plazo definidos con el taller.</span></li>
+                </ul>
+
+                <details className="group mt-5 lg:hidden">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between border-y border-white/10 text-xs font-bold uppercase tracking-[0.1em] text-white/60 [&::-webkit-details-marker]:hidden">
+                    Nota general <span className="text-brand group-open:hidden">+</span><span className="hidden text-brand group-open:inline">−</span>
+                  </summary>
                   <textarea
-                    value={item.note}
-                    onChange={(event) => setNote(item.slug, event.target.value)}
-                    placeholder="Ej.: necesito otra medida o terminación"
-                    rows={2}
-                    className="mt-2 w-full resize-y border border-black/20 p-3 text-base font-normal outline-none focus:border-brand"
+                    value={generalNotes}
+                    onChange={(event) => setGeneralNotes(event.target.value)}
+                    placeholder="Zona de entrega, fecha ideal o detalles del espacio"
+                    rows={3}
+                    className="mt-3 w-full resize-y rounded-xl border border-white/15 bg-white/5 p-3 text-base text-white outline-none placeholder:text-white/35 focus:border-brand"
+                  />
+                </details>
+
+                <label className="mt-5 hidden text-xs font-bold uppercase tracking-[0.1em] text-white/60 lg:block">
+                  Nota general <span className="font-normal normal-case text-white/35">(opcional)</span>
+                  <textarea
+                    value={generalNotes}
+                    onChange={(event) => setGeneralNotes(event.target.value)}
+                    placeholder="Zona de entrega, fecha ideal o detalles del espacio"
+                    rows={3}
+                    className="mt-2 w-full resize-y rounded-xl border border-white/15 bg-white/5 p-3 text-base font-normal normal-case tracking-normal text-white outline-none placeholder:text-white/35 focus:border-brand"
                   />
                 </label>
-              </div>
-            </article>
-          ))}
-          <div className="flex flex-wrap items-center justify-between gap-3 py-2">
-            <Link href="/productos" className="inline-flex min-h-11 items-center font-bold text-brand">Seguir agregando productos</Link>
-            <button type="button" onClick={clearCart} className="min-h-11 px-2 text-sm font-bold text-ink/55 hover:text-brand">Vaciar pedido</button>
-          </div>
-        </div>
 
-        <aside className="h-fit bg-white p-5 lg:sticky lg:top-44 lg:p-6">
-          <p className="eyebrow">Último paso</p>
-          <h2 className="mt-2 font-heading text-3xl uppercase">Enviá tu consulta</h2>
-          <ol className="mt-5 grid gap-4 text-sm text-ink/70">
-            <li className="flex gap-3"><span className="font-bold text-brand">01</span><span>Revisá productos, cantidades y notas.</span></li>
-            <li className="flex gap-3"><span className="font-bold text-brand">02</span><span>Enviá el pedido por WhatsApp.</span></li>
-            <li className="flex gap-3"><span className="font-bold text-brand">03</span><span>Coordinamos medidas, precio, entrega y pago.</span></li>
-          </ol>
-          <label className="mt-6 block text-sm font-bold">
-            Notas generales
-            <textarea
-              value={generalNotes}
-              onChange={(event) => setGeneralNotes(event.target.value)}
-              placeholder="Contanos sobre tu espacio o fecha ideal"
-              rows={4}
-              className="mt-2 w-full resize-y border border-black/20 p-3 text-base font-normal outline-none focus:border-brand"
-            />
-          </label>
-          {whatsappUrl ? (
-            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="button-primary mt-5 w-full">
-              <WhatsAppIcon className="size-5" /> Enviar por WhatsApp
-            </a>
-          ) : (
-            <>
-              <button type="button" disabled className="button-primary mt-5 w-full opacity-50">
-                <WhatsAppIcon className="size-5" /> WhatsApp no configurado
-              </button>
-              <p className="mt-3 text-sm leading-6 text-brand">Todavía falta cargar el número de WhatsApp del negocio.</p>
-            </>
-          )}
-          <p className="mt-4 text-xs leading-5 text-ink/50">No se realiza ningún pago en esta página. La cotización se confirma directamente con Esperanza Muebles.</p>
-        </aside>
+                {whatsappUrl ? (
+                  <a href={whatsappUrl} target="_blank" rel="noreferrer" className="mt-5 hidden min-h-[3.4rem] w-full items-center justify-center gap-2 bg-[#25d366] px-5 text-sm font-extrabold uppercase tracking-[0.04em] text-white transition-colors hover:bg-[#1ebd5b] lg:flex">
+                    <WhatsAppIcon className="size-5" /> Continuar en WhatsApp
+                  </a>
+                ) : (
+                  <button type="button" disabled className="button-primary mt-5 hidden w-full opacity-50 lg:inline-flex">
+                    WhatsApp no configurado
+                  </button>
+                )}
+                <p className="mt-3 hidden text-center text-xs leading-5 text-white/35 lg:block">Podés revisar todo antes de enviar el mensaje.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
       </div>
 
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-black/15 bg-white p-3 lg:hidden">
-        {whatsappUrl ? (
-          <a href={whatsappUrl} target="_blank" rel="noreferrer" className="button-primary w-full"><WhatsAppIcon className="size-5" /> Enviar pedido</a>
-        ) : (
-          <button type="button" disabled className="button-primary w-full opacity-50">WhatsApp no configurado</button>
-        )}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink/95 px-4 py-3.5 backdrop-blur-xl lg:hidden">
+        <div className="mx-auto flex max-w-6xl items-center gap-3">
+          <div className="min-w-0 flex-1 text-white">
+            <p className="text-[0.65rem] font-bold uppercase tracking-[0.12em] text-white/45">Tu carrito</p>
+            <p className="truncate text-base font-extrabold">{itemCount} {itemCount === 1 ? "mueble" : "muebles"}</p>
+          </div>
+          {whatsappUrl ? (
+            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-[3.1rem] shrink-0 items-center justify-center gap-2 bg-[#25d366] px-5 text-sm font-extrabold text-white">
+              <WhatsAppIcon className="size-4" /> Continuar
+            </a>
+          ) : (
+            <button type="button" disabled className="min-h-[3.1rem] shrink-0 bg-brand px-5 text-sm font-bold text-white opacity-50">Sin WhatsApp</button>
+          )}
+        </div>
       </div>
     </main>
   );
